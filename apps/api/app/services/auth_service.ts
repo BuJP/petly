@@ -1,13 +1,17 @@
 import User from '#models/user'
 import { RefreshTokenRepository } from '#repositories/refresh_token_repository'
 import { UserRepository } from '#repositories/user_repository'
-import { RegisterPayload } from '#validators/auth'
+import { LoginPayload, RegisterPayload } from '#validators/auth'
 import { AuthTokens, AuthTokenService } from './auth_token_service.js'
 import env from '#start/env'
 import db from '@adonisjs/lucid/services/db'
 import { TransactionClientContract } from '@adonisjs/lucid/types/database'
-import { EmailAlreadyExistsException } from '#exceptions/auth_exceptions'
+import {
+  EmailAlreadyExistsException,
+  InvalidCredentialsException,
+} from '#exceptions/auth_exceptions'
 import { inject } from '@adonisjs/core'
+import { errors } from '@adonisjs/auth'
 
 @inject()
 export class AuthService {
@@ -42,6 +46,36 @@ export class AuthService {
       if (error.constraint === 'users_email_unique') {
         throw new EmailAlreadyExistsException()
       }
+
+      throw error
+    }
+  }
+
+  public async login(payload: LoginPayload) {
+    const { email, password } = payload
+
+    let user: User
+
+    try {
+      user = await User.verifyCredentials(email, password)
+    } catch (error) {
+      if (error instanceof errors.E_INVALID_CREDENTIALS) {
+        throw new InvalidCredentialsException()
+      }
+
+      throw error
+    }
+
+    const transaction = await db.transaction()
+
+    try {
+      const tokens = await this.generateAndStoreTokens({ user, transaction })
+
+      await transaction.commit()
+
+      return { tokens, user }
+    } catch (error) {
+      await transaction.rollback()
 
       throw error
     }

@@ -27,6 +27,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
           message: error.message,
           details: error.details || null,
           status: error.status,
+          stack: this.debug ? error.stack : undefined,
         })
       )
     }
@@ -38,6 +39,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
           message: error.message,
           details: error.messages,
           status: error.status,
+          stack: this.debug ? error.stack : undefined,
         })
       )
     }
@@ -47,8 +49,9 @@ export default class HttpExceptionHandler extends ExceptionHandler {
         formatErrorResponse({
           code: error.code ?? DEFAULT_ERROR_CODE,
           message: error.message,
-          details: this.debug ? error.stack : null,
+          details: null,
           status: error.status,
+          stack: this.debug ? error.stack : undefined,
         })
       )
     }
@@ -58,8 +61,9 @@ export default class HttpExceptionHandler extends ExceptionHandler {
         formatErrorResponse({
           code: DEFAULT_ERROR_CODE,
           message: this.debug ? error.message : DEFAULT_ERROR_MESSAGE,
-          details: this.debug ? error.stack : null,
+          details: null,
           status: 500,
+          stack: this.debug ? error.stack : undefined,
         })
       )
     }

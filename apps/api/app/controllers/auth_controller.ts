@@ -1,5 +1,5 @@
 import { AuthService } from '#services/auth_service'
-import { registerValidator } from '#validators/auth'
+import { loginValidator, registerValidator } from '#validators/auth'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import { UserPresenter } from '../presenters/user_presenter.js'
@@ -27,11 +27,21 @@ export default class AuthController {
     )
   }
 
+  public async login(context: HttpContext) {
+    const { request, response } = context
 
-    return formatSuccessResponse({
-      user: UserPresenter.present(user),
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-    })
+    const payload = await request.validateUsing(loginValidator)
+
+    const { user, tokens } = await this.authService.login(payload)
+
+    return response.ok(
+      formatSuccessResponse({
+        user: UserPresenter.present(user),
+        tokens: {
+          accessToken: tokens.accessToken,
+          refreshToken: tokens.refreshToken,
+        },
+      })
+    )
   }
 }

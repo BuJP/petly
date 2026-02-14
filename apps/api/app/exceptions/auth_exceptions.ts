@@ -9,3 +9,13 @@ export class EmailAlreadyExistsException extends ApiException {
     })
   }
 }
+
+export class InvalidCredentialsException extends ApiException {
+  constructor() {
+    super({
+      message: 'The provided email or password is incorrect.',
+      code: 'E_AUTH_INVALID_CREDENTIALS',
+      status: 401,
+    })
+  }
+}
