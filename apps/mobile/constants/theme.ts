@@ -70,7 +70,7 @@ export const palette = {
 export const colors = {
   background: palette.white,
   foreground: palette.gray[900],
-  muted: palette.gray["400"],
+  muted: palette.gray["500"],
   status: {
     error: palette.red["500"],
     // errorBackground: palette.red["50"],
