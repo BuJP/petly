@@ -1,9 +1,12 @@
 {
-  "name": "api",
+  "name": "@petly/api",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "license": "UNLICENSED",
+  "exports": {
+    "./.adonisjs/api": "./.adonisjs/api.ts"
+  },
   "scripts": {
     "start": "node bin/server.js",
     "build": "node ace build",
@@ -43,6 +46,7 @@
     "@japa/plugin-adonisjs": "^4.0.0",
     "@japa/runner": "^4.2.0",
     "@swc/core": "1.11.24",
+    "@tuyau/utils": "^0.0.9",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/luxon": "^3.7.1",
     "@types/node": "^22.15.18",
@@ -57,6 +61,7 @@
     "@adonisjs/core": "^6.18.0",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.1",
+    "@tuyau/core": "^0.4.2",
     "@vinejs/vine": "^3.0.1",
     "jsonwebtoken": "^9.0.3",
     "luxon": "^3.7.2",
