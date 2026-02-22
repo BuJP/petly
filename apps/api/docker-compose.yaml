@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_db
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '5432:5432' # HOST_PORT:CONTAINER_PORT
+    networks:
+      - postgres_network
+
+volumes:
+  postgresql_data:
+    driver: local
+
+networks:
+  postgres_network:
+    driver: bridge

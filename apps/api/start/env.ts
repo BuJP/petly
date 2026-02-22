@@ -27,5 +27,16 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_PORT: Env.schema.number(),
   DB_USER: Env.schema.string(),
   DB_PASSWORD: Env.schema.string.optional(),
-  DB_DATABASE: Env.schema.string()
+  DB_DATABASE: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring JWT authentication
+  |----------------------------------------------------------
+  */
+  JWT_SECRET: Env.schema.string(),
+  JWT_ACCESS_TOKEN_EXPIRES_IN: Env.schema.enum(['5m', '10m', '15m', '30m', '1h', '2h'] as const),
+  JWT_REFRESH_TOKEN_SECRET: Env.schema.string(),
+  JWT_REFRESH_TOKEN_EXPIRES_IN: Env.schema.enum(['1d', '7d', '14d', '30d', '90d'] as const),
+  MAX_ACTIVE_TOKENS_PER_USER: Env.schema.number(),
 })
