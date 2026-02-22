@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "destructive";
-type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonContextValue = {
   variant: ButtonVariant;
@@ -59,7 +59,7 @@ export const ButtonRoot = (props: ButtonProps) => {
           buttonStyles.base,
           buttonStyles[variant],
           buttonStyles[`size_${size}`],
-          fullWidth && buttonStyles.fullWidth,
+          !fullWidth && { alignSelf: "flex-start" },
           pressed && !isDisabled && buttonStyles[`${variant}Pressed`],
           isDisabled && buttonStyles.disabled,
         ]}
@@ -92,8 +92,6 @@ const buttonStyles = StyleSheet.create({
     justifyContent: "center",
     gap: spacing["2"],
   },
-
-  fullWidth: { width: "100%" },
 
   size_sm: { paddingVertical: spacing["2"], paddingHorizontal: spacing["3"] },
   size_md: { paddingVertical: spacing["3"], paddingHorizontal: spacing["4"] },
