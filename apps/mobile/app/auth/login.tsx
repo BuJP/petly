@@ -79,7 +79,6 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   scrollContent: {
-    flex: 1,
     padding: spacing[6],
     gap: spacing[6],
   },
